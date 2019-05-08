@@ -1,0 +1,21 @@
+{
+  "name": "learning-elm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "elm.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./optimize.sh src/Main.elm",
+    "watch": "watch 'npm run build' ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaeyson/learning-elm.git"
+  },
+  "author": "Jaeyson Anthony Y.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaeyson/learning-elm/issues"
+  },
+  "homepage": "https://github.com/jaeyson/learning-elm#readme"
+}
