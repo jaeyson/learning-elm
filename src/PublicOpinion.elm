@@ -31,7 +31,6 @@ init _ =
       { url = "https://elm-lang.org/assets/public-opinion.txt"
       , expect = Http.expectString GotText
       }
-
   )
 
 
@@ -45,14 +44,11 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
 
   case msg of
-
     GotText result ->
 
       case result of
-
         Ok fullText ->
           (Success fullText, Cmd.none)
-
         Err _ ->
           (Failure, Cmd.none)
 
@@ -72,10 +68,10 @@ view : Model -> Html Msg
 view model =
   case model of
     Failure ->
-      text "cant load info"
+      pre [] [ text "error loading info" ]
 
     Loading ->
-      text "loading"
+      text "Loading..."
 
     Success fullText ->
       pre [] [ text fullText ]
