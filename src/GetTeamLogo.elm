@@ -2,7 +2,7 @@ module GetTeamLogo exposing (..)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes as Attrib exposing (..)
 import Html.Events exposing (..)
 import Http
 import Json.Decode exposing (..)
@@ -38,14 +38,14 @@ init _ =
 -- Update
 
 type Msg
-  = MorePlease
+  = ViewLogo String
   | GotLogo (Result Http.Error String)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    MorePlease ->
-      (Loading, getTeamLogo)
+    MorePlease teamCode ->
+      (Loading, getTeamLogo teamCode)
 
     GotLogo result ->
       case result of
@@ -71,21 +71,41 @@ view : Model -> Html Msg
 view model =
   div []
     [ h2 [] [ text "Select Team" ]
-    , input [ Html.Attributes.list "pet" ]
+    , input [ Attrib.list "team" ]
         []
-    , datalist [ id "pet" ]
-        [ option [ Html.Attributes.value ""
-                  , hidden True
-                  , selected True
-                  ] []
-        , option [ Html.Attributes.value "Atlanta" ] []
-        , option [ Html.Attributes.value "Boston" ] []
-        , option [ Html.Attributes.value "Phoenix" ] []
-        , option [ Html.Attributes.value "Brooklyn" ] []
-        , option [ Html.Attributes.value "Cleveland" ] []
-        , option [ Html.Attributes.value "Sacramento" ] []
+    , datalist [ id "team" ]
+        [ option [ Attrib.value ""
+                  , Attrib.selected (model.inpuTeam == "")
+                  , Attrib.disabled True
+                  , Attrib.hidden True
+                  ]
+            []
+        , option [ Attrib.value "Atlanta"
+                  , Attrib.selected (model.inputTeam == "Home")
+                  ]
+            []
+        , option [ Attrib.value "Boston"
+                  , Attrib.selected (model.inputTeam == "Home")
+                  ]
+            []
+        , option [ Attrib.value "Brooklyn"
+                  , Attrib.selected (model.inputTeam == "Home")
+                  ]
+            []
+        , option [ Attrib.value "Cleveland"
+                  , Attrib.selected (model.inputTeam == "Home")
+                  ]
+            []
+        , option [ Attrib.value "Phoenix"
+                  , Attrib.selected (model.inputTeam == "Home")
+                  ]
+            []
+        , option [ Attrib.value "Denver"
+                  , Attrib.selected (model.inputTeam == "Home")
+                  ]
+            []
         ]
-    , button [ onClick MorePlease ]
+    , button [ onClick ViewLogo ]
         [ text "Select Team" ]
     , viewGif model
     ]
@@ -96,7 +116,7 @@ viewGif model =
     Failure ->
       div []
         [ text "cant load cat Gif"
-        , button [ onClick MorePlease ] [ text "try again" ]
+        , button [ onClick ViewLogo ] [ text "try again" ]
         ]
 
     Loading ->
@@ -116,12 +136,12 @@ viewGif model =
 -- HTTP
 
 getTeamLogo : Cmd Msg
-getTeamLogo =
+getTeamLogo teamCode =
   Http.get
     { url = "https://gist.githubusercontent.com/jaeyson/60fe551b9ffb82da517bc50893b61da7/raw/a1f0353b9f22dab42d7e118efbdbc2a12ff1a25f/team.json"
-    , expect = Http.expectJson GotLogo logoDecoder
+    , expect = Http.expectJson GotLogo (logoDecoder teamCode)
     }
 
-logoDecoder : Decoder String
-logoDecoder =
-  field "ATL" (field "TeamLogoURL" string)
+logoDecoder : String -> Decoder String
+logoDecoder teamCode =
+  field team (field "TeamLogoURL" string)
