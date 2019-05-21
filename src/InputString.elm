@@ -1,8 +1,10 @@
 module Main exposing (..)
+
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Debug
 
 
 
@@ -47,13 +49,19 @@ update msg model =
   case msg of
     Content ->
       { model | content = model.input
-              , input = "" }
+              , input = ""
+      }
     Input str ->
-      { model | input = str }
+      { model | input = str
+      }
     Clear ->
       init
     Edit ->
-      { model | input = model.content }
+      { model | input = model.content
+      }
+    Add ->
+      { model | content = model.input
+      }
 
 
 
@@ -77,4 +85,27 @@ view model =
         [ text "Add" ]
     , button [ type_ "button", onClick Clear ]
         [ text "Clear" ]
+    , Html.form [ onSubmit Add, autocomplete False ]
+        [ input [ list "logo"
+                , placeholder "select team"
+                ]
+            []
+        , datalist [ id "logo" ]
+            [ option [ value "Atlanta Hawks"
+                      , selected (model.input == "Atlanta Hawks")
+                      ]
+                [ text "ATL" ]
+            , option [ value "Denver Nuggets" ]
+                [ text "DEN" ]
+            ]
+        ]
+    , debugSection model
+    ]
+
+debugSection model =
+  div []
+    [ h3 []
+        [ text "input: "
+        , text (Debug.toString model.input)
+        ]
     ]
