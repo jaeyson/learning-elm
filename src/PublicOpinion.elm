@@ -40,9 +40,13 @@ init _ =
 type Msg
   = GotText (Result Http.Error String)
 
+
+
+
+
+
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-
   case msg of
     GotText result ->
 
@@ -51,6 +55,11 @@ update msg model =
           (Success fullText, Cmd.none)
         Err _ ->
           (Failure, Cmd.none)
+
+
+
+
+
 
 
 

@@ -1,10 +1,11 @@
 module ElmProgHttpGet exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Events exposing (..)
 import Http exposing (..)
 
-
+-- Main
 
 main =
   Browser.element
@@ -22,7 +23,16 @@ type alias Model =
 
 init : () -> (Model, Cmd Msg)
 init _ =
-  ([], Cmd.none)
+  ([]
+  , Cmd.none
+  )
+
+
+
+
+
+
+
 
 
 
@@ -32,15 +42,13 @@ type Msg
   = SendHttpRequest
   | DataReceived (Result Http.Error String)
 
-url : String
-url =
-  "http://localhost:8006/old-school.txt"
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     SendHttpRequest ->
-      (model, Http.send DataReceived (Http.getString url))
+      (model, getText)
+
 
     DataReceived (Ok nicknameStr) ->
       let
@@ -49,9 +57,18 @@ update msg model =
       in
           (nicknames, Cmd.none)
 
-    DataReceived (Err, _) ->
+    DataReceived (Err _) ->
       (model, Cmd.none)
 
+url : String
+url =
+  "http://localhost:8006/old-school.txt"
+  
+getText =
+  Http.get
+    { url = url
+    , expect = Http.expectString DataReceived
+    }
 
 
 -- Subscriptions
@@ -59,6 +76,7 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
+
 
 
 -- View
