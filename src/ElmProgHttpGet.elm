@@ -67,6 +67,17 @@ update msg model =
       , Cmd.none
       )
 
+{--
+things to take note about Http.Error message:
+
+type alias Metadata
+
+type Response body
+
+Http.expectStringResponse
+--}
+
+{--}
 createErrorMessage : Http.Error -> String
 createErrorMessage httpError =
   case httpError of
@@ -80,10 +91,12 @@ createErrorMessage httpError =
       "It appears you don't have an Internet connection right now."
 
     Http.BadStatus response ->
-      response.statusCode
+      String.fromInt response
 
     Http.BadBody message ->
       message
+{--}
+
 
 getText =
   Http.get
