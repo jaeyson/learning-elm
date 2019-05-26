@@ -1,8 +1,22 @@
 module Bingo exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Debug exposing (toString)
+
+
+
+-- Main
+
+main =
+  Browser.sandbox
+    { init = initModel
+    , update = update
+    , view = view
+    }
+
 
 
 -- Model
@@ -10,10 +24,10 @@ import Debug exposing (toString)
 type alias Model =
   { name : String
   , gameNumber : Int
-  , entries : List Entries
+  , entries : List Entry
   }
 
-type alias Entries =
+type alias Entry =
     { id : Int
     , phrase : String
     , points : Int
@@ -27,35 +41,46 @@ initModel =
   , entries = initEntries
   }
 
-initEntries : List Entries
+initEntries : List Entry
 initEntries =
-  [ { id = 1, phrase = "Future-Proof", points = 100, marked = False }
-  , { id = 2, phrase = "Doing Agile", points = 200, marked = False }
+  [ Entry 1 "Future-Proof" 100 False
+  , Entry 2 "Doing Agile" 200 False
+  , Entry 3 "In The Cloud" 300 False
+  , Entry 2 "Rock-Star Ninja" 400 False
   ]
 
 
 -- Update
 
+type Msg
+  = NewGame
+  -- | Mark
+  -- | ShareScore
+
+update : Msg -> Model -> Model
+update msg model =
+  case msg of
+    NewGame ->
+      { model | gameNumber = model.gameNumber + 1
+      }
+
 
 
 -- View
 
-main =
-  view initModel
-
-
-playerInfo name gameNumber =
-  name ++ " - Game #" ++ String.fromInt gameNumber
-
-viewPlayer name gameNumber =
-  let
-      playerInfoText =
-        playerInfo name gameNumber
-        |> String.toUpper
-        |> text
-  in
-      h2 []
-        [ playerInfoText ]
+view model =
+  div [ class "content" ]
+    [ viewHeader "Buzzword Bingo"
+    , viewPlayer model.name model.gameNumber
+    , viewEntryList model.entries
+    , div [ class "button-group" ]
+        [ button [ onClick NewGame ]
+            [ text "New Game" ]
+        ]
+    , div [ class "debug" ]
+        [ text (Debug.toString model) ]
+    , viewFooter
+    ]
 
 viewHeader title =
   header []
@@ -67,19 +92,36 @@ viewFooter =
         [ text "Powered by Elm" ]
     ]
 
-view model =
-  div []
-    [ viewHeader "Buzzword Bingo"
-    , viewPlayer model.name model.gameNumber
-    , debugSection model
-    , viewFooter
+viewPlayer name gameNumber =
+  let
+      playerInfoText =
+        playerInfo name gameNumber
+        |> String.toUpper
+        |> text
+  in
+      h2 []
+        [ playerInfoText ]
+
+playerInfo name gameNumber =
+  name ++ " - Game #" ++ String.fromInt gameNumber
+
+viewEntryList : List Entry -> Html msg
+viewEntryList entries =
+  let
+      listOfEntries =
+        List.map viewEntryItem entries
+  in
+      ul [] listOfEntries
+
+viewEntryItem : Entry -> Html msg
+viewEntryItem entry =
+  li []
+    [ span [ class "phrase" ]
+        [ text entry.phrase ]
+    , span [class "points"]
+        [ text (String.fromInt entry.points) ]
     ]
 
-debugSection model =
-  section []
-    [ h3 []
-        [ text (Debug.toString model) ]
-    ]
 
 
 
