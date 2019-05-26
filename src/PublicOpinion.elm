@@ -16,7 +16,6 @@ main =
     }
 
 
-
 -- Model
 
 type Model
@@ -28,7 +27,8 @@ init : () -> (Model, Cmd Msg)
 init _ =
   ( Loading
   , Http.get
-      { url = "https://elm-lang.org/assets/public-opinion.txt"
+      -- { url = "https://elm-lang.org/assets/public-opinion.txt"
+      { url = "http://localhost:8006/old-school.txt"
       , expect = Http.expectString GotText
       }
   )
@@ -41,10 +41,6 @@ type Msg
   = GotText (Result Http.Error String)
 
 
-
-
-
-
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
@@ -55,12 +51,6 @@ update msg model =
           (Success fullText, Cmd.none)
         Err _ ->
           (Failure, Cmd.none)
-
-
-
-
-
-
 
 
 -- Subscriptions

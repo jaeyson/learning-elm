@@ -5,7 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Json.Decode exposing (..)
+import Json.Decode as Decode exposing (..)
 
 
 
@@ -115,12 +115,13 @@ viewGif model =
 getRandomCatGif : Cmd Msg
 getRandomCatGif =
   Http.get
-    { url = "https://gist.githubusercontent.com/jaeyson/60fe551b9ffb82da517bc50893b61da7/raw/a1f0353b9f22dab42d7e118efbdbc2a12ff1a25f/team.json"
+    { url = "http://localhost:8005/old-school.json"
     , expect = Http.expectJson GotGif gifDecoder
     }
 
 
 gifDecoder : Decoder String
 gifDecoder =
-  at [ "ATL", "TeamLogoURL" ] string
+  field "nicknames" Decode.string
+  -- at [ "ATL", "TeamLogoURL" ] string
   -- field "data" (field "image_url" string)

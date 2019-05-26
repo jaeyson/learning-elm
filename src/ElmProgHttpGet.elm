@@ -5,6 +5,8 @@ import Html exposing (..)
 import Html.Events exposing (..)
 import Http exposing (..)
 
+
+
 -- Main
 
 main =
@@ -16,23 +18,22 @@ main =
     }
 
 
+
 -- Model
 
 type alias Model =
-  List String
+  { nicknames : List String
+  , errorMessage : Maybe String
+  }
 
 init : () -> (Model, Cmd Msg)
 init _ =
-  ([]
+  (
+    { nicknames = []
+    , errorMessage = Nothing
+    }
   , Cmd.none
   )
-
-
-
-
-
-
-
 
 
 
@@ -42,33 +43,54 @@ type Msg
   = SendHttpRequest
   | DataReceived (Result Http.Error String)
 
-
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     SendHttpRequest ->
       (model, getText)
 
-
     DataReceived (Ok nicknameStr) ->
       let
           nicknames =
             String.split "," nicknameStr
       in
-          (nicknames, Cmd.none)
+          (
+            { model | nicknames = nicknames
+            }
+          , Cmd.none
+          )
 
-    DataReceived (Err _) ->
-      (model, Cmd.none)
+    DataReceived (Err httpError) ->
+      (
+        { model | errorMessage = Just (createErrorMessage httpError)
+        }
+      , Cmd.none
+      )
 
-url : String
-url =
-  "http://localhost:8006/old-school.txt"
-  
+createErrorMessage : Http.Error -> String
+createErrorMessage httpError =
+  case httpError of
+    Http.BadUrl message ->
+      message
+
+    Http.Timeout ->
+      "Server is taking too long to respond. Please try again later."
+
+    Http.NetworkError ->
+      "It appears you don't have an Internet connection right now."
+
+    Http.BadStatus response ->
+      response.statusCode
+
+    Http.BadBody message ->
+      message
+
 getText =
   Http.get
-    { url = url
+    { url = "http://localhost:8006/old-school.txt"
     , expect = Http.expectString DataReceived
     }
+
 
 
 -- Subscriptions
@@ -86,10 +108,35 @@ view model =
   div []
     [ button [ onClick SendHttpRequest ]
         [ text "get data from server" ]
-    , h3 []
+    , viewNicknamesOrError model
+    ]
+
+viewNicknamesOrError : Model -> Html Msg
+viewNicknamesOrError model =
+  case model.errorMessage of
+    Just message ->
+      viewError message
+    Nothing ->
+      viewNicknames model.nicknames
+
+viewError : String -> Html Msg
+viewError errorMessage =
+  let
+      errorHeading =
+        "couldn't fetch nicknames at this time"
+  in
+      div []
+        [ h3 [] [ text errorHeading ]
+        , text ("Error: " ++ errorMessage)
+        ]
+
+viewNicknames : List String -> Html Msg
+viewNicknames nicknames =
+  div []
+    [ h3 []
         [ text "old school main characters" ]
     , ul []
-        (List.map viewNickname model)
+        (List.map viewNickname nicknames)
     ]
 
 viewNickname : String -> Html Msg
