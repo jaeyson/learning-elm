@@ -5,15 +5,17 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Debug exposing (toString)
+import Random
 
 
 
 -- Main
 
 main =
-  Browser.sandbox
+  Browser.element
     { init = initModel
     , update = update
+    , subscriptions = subscriptions
     , view = view
     }
 
@@ -34,12 +36,14 @@ type alias Entry =
     , marked : Bool
     }
 
-initModel : Model
-initModel =
-  { name = "Mike"
-  , gameNumber = 1
-  , entries = initEntries
-  }
+initModel : () -> (Model , Cmd Msg)
+initModel _ =
+  ( { name = "Mike"
+    , gameNumber = 1
+    , entries = initEntries
+    }
+  , getRandomNumber
+  )
 
 initEntries : List Entry
 initEntries =
@@ -50,20 +54,23 @@ initEntries =
   ]
 
 
+
 -- Update
 
 type Msg
   = NewGame
   | Mark Int
+  | RandomNumber Int
   -- | ShareScore
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     NewGame ->
-      { model | gameNumber = model.gameNumber + 1
-              , entries = initEntries
-      }
+      ( { model | entries = initEntries
+        }
+      , getRandomNumber
+      )
 
     Mark id ->
       let
@@ -76,10 +83,32 @@ update msg model =
               False ->
                 e
       in
-          { model | entries = List.map markEntry model.entries
-          }
+          ( { model | entries = List.map markEntry model.entries
+            }
+          , Cmd.none
+          )
+
+    RandomNumber id ->
+      ( { model | gameNumber = id }
+      , Cmd.none
+      )
 
 
+
+
+-- Commands
+
+getRandomNumber : Cmd Msg
+getRandomNumber =
+  Random.generate RandomNumber (Random.int 1 100)
+
+
+
+-- Subscriptions
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.none
 
 
 
@@ -90,6 +119,7 @@ view model =
     [ viewHeader "Buzzword Bingo"
     , viewPlayer model.name model.gameNumber
     , viewEntryList model.entries
+    , viewScore model.entries
     , div [ class "button-group" ]
         [ button [ onClick NewGame ]
             [ text "New Game" ]
@@ -141,6 +171,16 @@ viewEntryItem entry =
         [ text (String.fromInt entry.points) ]
     ]
 
+viewScore entries =
+  let
+      totalPoints =
+        entries
+        |> List.filter .marked
+        |> List.map .points
+        |> List.sum
+  in
+      div []
+        [ text (String.fromInt totalPoints) ]
 
 
 
