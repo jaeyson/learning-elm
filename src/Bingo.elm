@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Debug exposing (toString)
 import Random
+import Http
 
 
 
@@ -40,18 +41,10 @@ initModel : () -> (Model , Cmd Msg)
 initModel _ =
   ( { name = "Mike"
     , gameNumber = 1
-    , entries = initEntries
+    , entries = []
     }
-  , getRandomNumber
+  , getEntries
   )
-
-initEntries : List Entry
-initEntries =
-  [ Entry 1 "Future-Proof" 100 False
-  , Entry 2 "Doing Agile" 200 False
-  , Entry 3 "In The Cloud" 300 False
-  , Entry 4 "Rock-Star Ninja" 400 False
-  ]
 
 
 
@@ -61,15 +54,16 @@ type Msg
   = NewGame
   | Mark Int
   | RandomNumber Int
+  | NewEntries (Result Http.Error String)
   -- | ShareScore
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     NewGame ->
-      ( { model | entries = initEntries
+      ( { model | gameNumber = model.gameNumber + 1
         }
-      , getRandomNumber
+      , getEntries
       )
 
     Mark id ->
@@ -93,6 +87,19 @@ update msg model =
       , Cmd.none
       )
 
+    NewEntries (Ok jsonString) ->
+      let
+          _ = "Ok" ++ Debug.toString jsonString
+
+      in
+          (model, Cmd.none)
+
+    NewEntries (Err message) ->
+      let
+          _ = "Error" ++ Debug.toString message
+
+      in
+          (model, Cmd.none)
 
 
 
@@ -102,6 +109,16 @@ getRandomNumber : Cmd Msg
 getRandomNumber =
   Random.generate RandomNumber (Random.int 1 100)
 
+entriesUrl : String
+entriesUrl =
+  "http://localhost:8006/entries"
+
+getEntries : Cmd Msg
+getEntries =
+  Http.get
+    { url = entriesUrl
+    , expect = Http.expectString NewEntries
+    }
 
 
 -- Subscriptions
