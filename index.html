@@ -2,20 +2,41 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Score Keeper Improved</title>
+  <title>Untitled</title>
+  <!--
   <link rel="stylesheet" href="style.css">
-  <script src="elm.js"></script>
+  -->
+  <link rel="stylesheet" href="monokai-sublime.css">
+  <style>
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background: #eee;
+      padding: .5rem;
+      border-radius: 5px;
+    }
+
+    code {
+      background: #efefef;
+      padding: 1px;
+      border-radius: 3px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <div id="elm"></div>
   </div>
-
+  <script src="elm.js"></script>
+  <script src="highlight.pack.js"></script>
   <script>
     //Elm.Practice == module Practice exposing (..)
     //Make sure to change that every time you
     //switch modules.
-    const app = Elm.Bingo.init({
+    const app = Elm.Markdowntest.init({
       node: document.getElementById('elm')
     });
   </script>
