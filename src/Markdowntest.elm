@@ -32,7 +32,7 @@ init _ =
   ( Loading
   , Http.get
       -- { url = "https://elm-lang.org/assets/public-opinion.txt"
-      { url = "https://gist.githubusercontent.com/jaeyson/7402006e9a6cb83efb533e87d3a29559/raw/8797a41f653336e4dcc5898ae22a5fbb25a042d4/til.md"
+      { url = "https://raw.githubusercontent.com/jaeyson/blog/master/2019/til.md"
       , expect = Http.expectString GotText
       }
   )

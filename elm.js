@@ -5940,7 +5940,7 @@ var author$project$Markdowntest$init = function (_n0) {
 		elm$http$Http$get(
 			{
 				cV: elm$http$Http$expectString(elm$core$Basics$identity),
-				d2: 'https://gist.githubusercontent.com/jaeyson/7402006e9a6cb83efb533e87d3a29559/raw/8797a41f653336e4dcc5898ae22a5fbb25a042d4/til.md'
+				d2: 'https://raw.githubusercontent.com/jaeyson/blog/master/2019/til.md'
 			}));
 };
 var elm$core$Platform$Sub$batch = _Platform_batch;
