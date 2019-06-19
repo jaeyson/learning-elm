@@ -1,6 +1,7 @@
 module Markdowntest exposing (..)
 
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Browser
 import Markdown as MD
 import Http exposing (..)
@@ -10,7 +11,7 @@ import Http exposing (..)
 -- Main
 
 main =
-  Browser.element
+  Browser.document
     { init = init
     , update = update
     , subscriptions = subscriptions
@@ -31,7 +32,7 @@ init _ =
   ( Loading
   , Http.get
       -- { url = "https://elm-lang.org/assets/public-opinion.txt"
-      { url = "http://localhost:8006/sample.md"
+      { url = "https://gist.githubusercontent.com/jaeyson/7402006e9a6cb83efb533e87d3a29559/raw/8797a41f653336e4dcc5898ae22a5fbb25a042d4/til.md"
       , expect = Http.expectString GotText
       }
   )
@@ -67,17 +68,34 @@ subscriptions model =
 
 -- View
 
-view : Model -> Html Msg
+type alias Document msg =
+  { title : String
+  , body : List (Html msg)
+  }
+
+view : Model -> Document Msg
 view model =
   case model of
     Failure ->
-      pre [] [ text "error loading info" ]
+      { title = "untitled"
+      , body =
+          [ pre [] [ text "error loading info" ] ]
+      }
+      -- pre [] [ text "error loading info" ]
 
     Loading ->
-      text "Loading..."
+      { title = "untitled"
+      , body =
+          [ text "error loading info" ]
+      }
+      -- text "Loading..."
 
     Success fullText ->
-      MD.toHtml [] fullText
+      { title = "untitled"
+      , body =
+          [ MD.toHtml [ class "container" ] fullText ]
+      }
+      -- MD.toHtml [] fullText
       -- pre [] [ text fullText ]
 
 {--

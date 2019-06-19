@@ -2,28 +2,53 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <noscript>
+    <p>
+    This website is using JavaScript. I'm still working on fallback and also my other projects. In the meantime, I have some <a href="https://github.com/jaeyson">mini-personal projects</a> to check out.
+    </p>
+  </noscript>
   <title>Untitled</title>
   <!--
   <link rel="stylesheet" href="style.css">
   -->
-  <link rel="stylesheet" href="monokai-sublime.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css">
+  <link rel="stylesheet" href="highlightJSThemes/monokai-sublime.css">
   <style>
+    body,
+    pre > code {
+      font-family: 'Fira Code', monospace;
+      font-display: fallback;
+    }
+
     .container {
       max-width: 900px;
       margin: 0 auto;
     }
 
+    pre,
+    pre > code {
+      background: #23241f;
+    }
+
     pre {
-      background: #eee;
       padding: .5rem;
       border-radius: 5px;
+      width: 100%;
+      color: white;
+    }
+
+    code,
+    pre > code {
+      padding: 3px;
+      border-radius: 3px;
+      line-height: 1.5rem;
     }
 
     code {
-      background: #efefef;
-      padding: 1px;
-      border-radius: 3px;
+      background: #eee;
     }
+
   </style>
 </head>
 <body>
@@ -37,7 +62,7 @@
     //Make sure to change that every time you
     //switch modules.
     const app = Elm.Markdowntest.init({
-      node: document.getElementById('elm')
+      //node: document.getElementById('elm')
     });
   </script>
 </body>
