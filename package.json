@@ -5,8 +5,8 @@
   "main": "elm.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./optimize.sh src/Main.elm",
-    "watch": "watch 'npm run build' ./src"
+    "build": "./optimize.sh",
+    "watch": "watch 'npm run build'"
   },
   "repository": {
     "type": "git",

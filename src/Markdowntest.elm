@@ -79,14 +79,18 @@ view model =
     Failure ->
       { title = "untitled"
       , body =
-          [ pre [] [ text "error loading info" ] ]
+          [ div [ class "container" ]
+              [ text "error loading info" ]
+          ]
       }
       -- pre [] [ text "error loading info" ]
 
     Loading ->
       { title = "untitled"
       , body =
-          [ text "error loading info" ]
+          [ div [ class "container" ]
+              [ text "Loading..." ]
+          ]
       }
       -- text "Loading..."
 
