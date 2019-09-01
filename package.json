@@ -1,6 +1,6 @@
 {
   "name": "learning-elm",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "elm.js",
   "scripts": {
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/jaeyson/learning-elm/issues"
   },
-  "homepage": "https://github.com/jaeyson/learning-elm#readme"
+  "homepage": "https://github.com/jaeyson/learning-elm#readme",
+  "devDependencies": {
+    "elm-live": "^4.0.0-alpha.13"
+  }
 }
