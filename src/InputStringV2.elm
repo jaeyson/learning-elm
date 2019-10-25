@@ -52,7 +52,7 @@ update msg model =
             Model newContent (String.reverse newContent)
 
         Input str ->
-            { model | input = str }
+            Model str model.display
 
         Reset ->
             init
