@@ -123,7 +123,7 @@ free2 minQty freeQty item =
       item
 --}
 
-module Sample exposing (..)
+module InputInt exposing (..)
 
 import Browser
 import Html exposing (..)

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/jaeyson/learning-elm#readme",
   "devDependencies": {
-    "elm-live": "^4.0.0-alpha.13"
-  }
+    "elm-live": "^4.0.1"
+  },
+  "dependencies": {}
 }
