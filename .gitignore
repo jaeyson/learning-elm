@@ -1,11 +1,6 @@
-# Created by https://www.gitignore.io/api/elm,node
-# Edit at https://www.gitignore.io/?templates=elm,node
 
-### Sass ###
-.sass-cache/
-*.css.map
-*.sass.map
-*.scss.map
+# Created by https://www.gitignore.io/api/elm,vim,node,sass
+# Edit at https://www.gitignore.io/?templates=elm,vim,node,sass
 
 ### Elm ###
 # elm-package generated files
@@ -36,6 +31,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+*.lcov
 
 # nyc test coverage
 .nyc_output
@@ -58,6 +54,9 @@ jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
+
+# TypeScript cache
+*.tsbuildinfo
 
 # Optional npm cache directory
 .npm
@@ -87,6 +86,9 @@ typings/
 # nuxt.js build output
 .nuxt
 
+# react / gatsby
+public/
+
 # vuepress build output
 .vuepress/dist
 
@@ -99,4 +101,30 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# End of https://www.gitignore.io/api/elm,node,sass
+### Sass ###
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+### Vim ###
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+Sessionx.vim
+
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+# Persistent undo
+[._]*.un~
+
+# End of https://www.gitignore.io/api/elm,vim,node,sass
