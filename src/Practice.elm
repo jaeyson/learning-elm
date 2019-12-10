@@ -1,12 +1,14 @@
 module Practice exposing (..)
 
 import Browser
+import Debug
 import Html exposing (..)
 import Html.Attributes as Attrib exposing (..)
 import Html.Events exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
-import Debug
+
+
 
 {--
 {
@@ -14,117 +16,126 @@ import Debug
   "DEN": "https://stats.nba.com/media/img/teams/logos/DEN_logo.svg"
 }
 --}
-
-
-
 -- Main
 
+
 main =
-  Browser.element
-    { init = init
-    , update = update
-    , subscriptions = subscriptions
-    , view = view
-    }
+    Browser.element
+        { init = init
+        , update = update
+        , subscriptions = subscriptions
+        , view = view
+        }
 
 
 
 -- Model
 
+
 type alias Model =
-  { teamHome : String
-  , teamAway : String
-  }
+    { teamHome : String
+    , teamAway : String
+    }
+
 
 init =
-  { teamHome = ""
-  , teamAway = ""
-  }
+    { teamHome = ""
+    , teamAway = ""
+    }
 
 
 
 -- Update
 
+
 type Msg
-  = SelectHome String
-  | SelectAway String
+    = SelectHome String
+    | SelectAway String
+
 
 update msg model =
-  case msg of
-    SelectHome teamCode ->
-      selectHome teamCode model
-    SelectAway teamCode ->
-      selectAway teamCode model
+    case msg of
+        SelectHome teamCode ->
+            selectHome teamCode model
+
+        SelectAway teamCode ->
+            selectAway teamCode model
+
 
 selectHome teamCode model =
-  case (extractHomeValue teamCode) of
-    Ok url ->
-      { model | teamHome = url
-      }
+    case extractHomeValue teamCode of
+        Ok url ->
+            { model
+                | teamHome = url
+            }
 
-    Err _ ->
-      model
+        Err _ ->
+            model
+
 
 selectAway teamCode model =
-  case (extractAwayValue teamCode) of
-    Ok url ->
-      { model | teamAway = url
-      }
+    case extractAwayValue teamCode of
+        Ok url ->
+            { model
+                | teamAway = url
+            }
 
-    Err _ ->
-      model
+        Err _ ->
+            model
+
 
 extractHomeValue teamCode =
-  decodeValue (decoderHome teamCode) json
+    decodeValue (decoderHome teamCode) json
+
 
 extractAwayValue teamCode =
-  decodeValue (decoderAway teamCode) json
+    decodeValue (decoderAway teamCode) json
+
 
 decoderHome teamCode =
-  Decode.map Model (field teamCode Decode.string)
+    Decode.map Model (field teamCode Decode.string)
+
 
 decoderAway teamCode =
-  Decode.map Model (field teamCode Decode.string)
+    Decode.map Model (field teamCode Decode.string)
+
 
 json =
-  Encode.object
-    [ ("ATL", Encode.string "https://stats.nba.com/media/img/teams/logos/ATL_logo.svg")
-    , ("DEN", Encode.string "https://stats.nba.com/media/img/teams/logos/DEN_logo.svg")
-    ]
+    Encode.object
+        [ ( "ATL", Encode.string "https://stats.nba.com/media/img/teams/logos/ATL_logo.svg" )
+        , ( "DEN", Encode.string "https://stats.nba.com/media/img/teams/logos/DEN_logo.svg" )
+        ]
+
 
 view model =
-  div []
-    [ h1 [] [ text "Select Team" ]
-    , input [ id "teamLogo", Attrib.list "logo" ]
-        []
-    , datalist [ id "logo" ]
-        [ option [ Attrib.value "Atlanta Hawks"
-                  , onClick (SelectHome "ATL")
-                  ]
-            [ text "ATL" ]
-        , option [ Attrib.value "Denver Nuggets" ]
-            [ text "DEN" ]
-        , option [ Attrib.value "LA Clippers" ]
-            [ text "LAC" ]
-        , option [ Attrib.value "Phoenix Suns" ]
-            [ text "PHX" ]
+    div []
+        [ h1 [] [ text "Select Team" ]
+        , input [ id "teamLogo", Attrib.list "logo" ]
+            []
+        , datalist [ id "logo" ]
+            [ option
+                [ Attrib.value "Atlanta Hawks"
+                , onClick (SelectHome "ATL")
+                ]
+                [ text "ATL" ]
+            , option [ Attrib.value "Denver Nuggets" ]
+                [ text "DEN" ]
+            , option [ Attrib.value "LA Clippers" ]
+                [ text "LAC" ]
+            , option [ Attrib.value "Phoenix Suns" ]
+                [ text "PHX" ]
+            ]
+        , debugSection model
         ]
-    , debugSection model
-    ]
+
 
 debugSection model =
-  div []
-    [ h3 []
-        [ text "Home: "
-        , text (Debug.toString model.teamHome)
+    div []
+        [ h3 []
+            [ text "Home: "
+            , text (Debug.toString model.teamHome)
+            ]
         ]
-    ]
-
-
-
-
-
-
 
 
 

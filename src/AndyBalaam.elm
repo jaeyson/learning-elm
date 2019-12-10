@@ -1,12 +1,11 @@
-{-- Slide 1
+{--Slide 1
 main =
   Browser.sandbox
     { init = "foo"
     , update = \_ m -> String.reverse m
     , view = \m -> button [ onClick 0 ] [ text m ]}
 --}
-
-{-- Slide 6
+{--Slide 6
 -- Model
 type alias Model =
   { x : Float
@@ -34,8 +33,7 @@ update (MouseChange x y) model =
             , y = y
     }, Cmd.none )
 --}
-
-{-- Slide 10
+{--Slide 10
 -- Model
 type alias Model =
   { email1 : String
@@ -68,3 +66,6 @@ submitDisabled model =
     ( (validEmail1 model /= Valid)
     || (validEmail2 model /= Valid) )
 --}
+
+
+module Main exposing (..)

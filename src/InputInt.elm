@@ -123,6 +123,7 @@ free2 minQty freeQty item =
       item
 --}
 
+
 module InputInt exposing (..)
 
 import Browser
@@ -136,24 +137,27 @@ import Html.Events exposing (..)
 
 
 main =
-  Browser.sandbox { init = init
-                  , update = update
-                  , view = view
-                  }
+    Browser.sandbox
+        { init = init
+        , update = update
+        , view = view
+        }
+
 
 
 -- Model
 
 
 type alias Model =
-  { calories : Int
-  , input : Int
-  , error : Maybe String
-  }
+    { calories : Int
+    , input : Int
+    , error : Maybe String
+    }
+
 
 init : Model
 init =
-  Model 0 0 Nothing
+    Model 0 0 Nothing
 
 
 
@@ -161,30 +165,43 @@ init =
 
 
 type Msg
-  = AddCalories
-  | ReduceCalories
-  | Input String
-  | Clear
+    = AddCalories
+    | ReduceCalories
+    | Input String
+    | Clear
+
 
 update : Msg -> Model -> Model
 update msg model =
-  case msg of
-    AddCalories ->
-      { model | calories = model.calories + model.input
-              , input = 0 }
-    ReduceCalories ->
-      { model | calories = model.calories - model.input
-              , input = 0 }
-    Input value ->
-      case String.toInt value of
-        Just num ->
-          { model | input = num
-                  , error = Nothing }
-        Nothing ->
-          { model | input = 0
-                  , error = Just "only int numbers allowed" }
-    Clear ->
-      init
+    case msg of
+        AddCalories ->
+            { model
+                | calories = model.calories + model.input
+                , input = 0
+            }
+
+        ReduceCalories ->
+            { model
+                | calories = model.calories - model.input
+                , input = 0
+            }
+
+        Input value ->
+            case String.toInt value of
+                Just num ->
+                    { model
+                        | input = num
+                        , error = Nothing
+                    }
+
+                Nothing ->
+                    { model
+                        | input = 0
+                        , error = Just "only int numbers allowed"
+                    }
+
+        Clear ->
+            init
 
 
 
@@ -193,26 +210,30 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div []
-    [ h3 []
-        [ text ("Calories: " ++ (String.fromInt model.calories)) ]
-    , input [ type_ "text"
+    div []
+        [ h3 []
+            [ text ("Calories: " ++ String.fromInt model.calories) ]
+        , input
+            [ type_ "text"
             , placeholder "Enter calories here"
             , onInput Input
-            , value ( if model.input == 0 then
-                        ""
-                      else
-                        String.fromInt model.input)]
-        []
-    , div []
-        [ text (Maybe.withDefault "" model.error) ]
-    , button [ type_ "button" , onClick AddCalories]
-        [ text "Add" ]
-    , button [ type_ "button" , onClick ReduceCalories]
-        [ text "Reduce" ]
-    , button [ type_ "button" , onClick Clear]
-        [ text "Clear" ]
-    , h1 []
-        [ text (String.fromInt model.input) ]
-    ]
+            , value
+                (if model.input == 0 then
+                    ""
 
+                 else
+                    String.fromInt model.input
+                )
+            ]
+            []
+        , div []
+            [ text (Maybe.withDefault "" model.error) ]
+        , button [ type_ "button", onClick AddCalories ]
+            [ text "Add" ]
+        , button [ type_ "button", onClick ReduceCalories ]
+            [ text "Reduce" ]
+        , button [ type_ "button", onClick Clear ]
+            [ text "Clear" ]
+        , h1 []
+            [ text (String.fromInt model.input) ]
+        ]
