@@ -12,16 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Install Elm
+      - name: Install Elm, elm-format & elm-test
         run: |
-          curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz
-          gunzip elm.gz
-          chmod +x elm
-          sudo mv elm /usr/local/bin/
-
-      - name: Install elm-format & elm-test
-        run: |
-          npm install -g elm-format elm-test
+          npm install -g elm elm-format elm-test
           elm-format src/ --yes
       - name: Install elm-format & elm-test
         run: elm-test
+
