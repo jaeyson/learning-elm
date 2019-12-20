@@ -23,5 +23,5 @@
 [travis badge]: https://travis-ci.com/jaeyson/learning-elm.svg?branch=master
 [pulse badge]: https://img.shields.io/github/commit-activity/m/jaeyson/learning-elm
 [dependabot badge]: https://badgen.net/dependabot/jaeyson/learning-elm/185518281?icon=dependabot
-[actions badge]: https://github.com/jaeyson/dwyl-phx-chat/workflows/Elm%20CI/badge.svg
+[actions badge]: https://github.com/jaeyson/learning-elm/workflows/Elm%20CI/badge.svg
 
