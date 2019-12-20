@@ -18,8 +18,6 @@
 [dependabot]: https://github.com/jaeyson/learning-elm
 [actions]: https://github.com/jaeyson/learning-elm/actions
 
-
-
 [//]: # "Image sources (Badge)"
 [commit badge]: https://img.shields.io/github/last-commit/jaeyson/learning-elm.svg
 [travis badge]: https://travis-ci.com/jaeyson/learning-elm.svg?branch=master
