@@ -3,8 +3,10 @@ name: Elm CI
 on: [push]
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     steps:
       - uses: actions/checkout@v1
@@ -16,4 +18,3 @@ jobs:
           elm-format src/ --yes
       - name: Install elm-format & elm-test
         run: elm-test
-
