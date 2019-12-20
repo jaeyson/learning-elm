@@ -5,12 +5,16 @@ on: [push]
 jobs:
 
   build:
+    name: Setup Elm and test it
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: clone repo
+        uses: actions/checkout@v1
+
+      - name: setup nodejs
+        uses: actions/setup-node@v1
 
       - name: Install Elm, elm-format & elm-test
         run: |
