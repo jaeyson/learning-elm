@@ -1,0 +1,20 @@
+name: Elm CI
+
+on: [push]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+
+      - name: Install Elm, elm-format & elm-test
+        run: |
+          npm install -g elm elm-format elm-test
+          elm-format src/ --yes
+      - name: Install elm-format & elm-test
+        run: elm-test
