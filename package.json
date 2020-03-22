@@ -4,7 +4,7 @@
   "description": "",
   "main": "elm.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "elm-format src/ --yes | elm-test",
     "build": "./optimize.sh",
     "watch": "watch 'npm run build'"
   },
