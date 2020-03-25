@@ -32,7 +32,7 @@ jobs:
         with:
           path: ~/.npm # npm cache files are stored in ~/.npm on Linux/macOS
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          #restore-keys: ${{ runner.os }}-node-
 
       - name: install Elm, elm-format & elm-test
         if: steps.node-cache.outputs.cache-hit != 'true'
