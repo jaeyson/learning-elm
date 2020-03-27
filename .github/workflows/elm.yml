@@ -41,5 +41,6 @@ jobs:
           elm-format src/ --yes | elm-test
 
       - name: format and run test
+        if: steps.node-cache.outputs.cache-hit == 'true'
         run: elm-format src/ --yes | elm-test
 
