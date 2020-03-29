@@ -41,10 +41,9 @@ jobs:
       - name: install Elm, elm-format & elm-test
         if: steps.npm.outputs.cache-hit != 'true'
         run: |
-          npm install -g elm elm-format elm-test | \
-          elm-format src/ --yes | elm-test
+          npm install elm elm-format elm-test | \
+          npx elm-format src/ --yes | elm-test
 
       - name: format and run test
-        if: steps.npm.outputs.cache-hit == 'true'
-        run: elm-format src/ --yes | elm-test
+        run: npx elm-format src/ --yes | elm-test
 
