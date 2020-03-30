@@ -44,5 +44,5 @@ jobs:
           npm install elm elm-format elm-test | \
 
       - name: format and run test
-        run: npx elm-format src/ --yes | npx elm-test
+        run: npx -p elm-format src/ --yes | npx -p elm-test
 
