@@ -36,13 +36,13 @@ jobs:
         with:
           path: ${{ steps.npm-cache.outputs.dir }}
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          #restore-keys: ${{ runner.os }}-node-
+          restore-keys: ${{ runner.os }}-node-
 
       - name: install Elm, elm-format & elm-test
-        if: steps.npm.outputs.cache-hit != 'true'
+        #if: steps.npm.outputs.cache-hit != 'true'
         run: |
           npm install elm elm-format elm-test | \
 
       - name: format and run test
-        run: npx -p elm-format src/ --yes | npx -p elm-test
+        run: npx elm-format src/ --yes | npx elm-test
 
