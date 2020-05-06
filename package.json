@@ -5,7 +5,8 @@
   "main": "elm.js",
   "scripts": {
     "test": "elm-format src/ --yes | elm-test",
-    "build": "./optimize.sh",
+    "sh": "./optimize.sh",
+    "build": "run(){ elm make src\"$1\".elm --output=dist/js/elm.js; }; run",
     "watch": "watch 'npm run build'"
   },
   "repository": {
