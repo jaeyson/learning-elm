@@ -5,7 +5,7 @@ import Json.Encode as JE
 
 
 json =
-  """
+    """
   [
     {
       "role": "admin",
@@ -20,31 +20,43 @@ json =
   ]
   """
 
+
 type User
-  = Admin String
-  | Regular String
+    = Admin String
+    | Regular String
 
-regularDecoder = JD.map Regular (JD.field "email" JD.string)
 
-adminDecoder = JD.map Admin (JD.field "email" JD.string)
+regularDecoder =
+    JD.map Regular (JD.field "email" JD.string)
+
+
+adminDecoder =
+    JD.map Admin (JD.field "email" JD.string)
+
 
 userType string =
-  case string of
-    "regular" -> regularDecoder
-    "admin" -> adminDecoder
-    _ -> JD.fail <| "err"
+    case string of
+        "regular" ->
+            regularDecoder
+
+        "admin" ->
+            adminDecoder
+
+        _ ->
+            JD.fail <| "err"
+
 
 userDecoder =
-  JD.field "role" JD.string
-  |> JD.andThen userType
+    JD.field "role" JD.string
+        |> JD.andThen userType
+
 
 output =
-  JD.decodeString (JD.list userDecoder) json
+    JD.decodeString (JD.list userDecoder) json
 
 
 
 ---
-
 
 
 addOne : Int -> Int
